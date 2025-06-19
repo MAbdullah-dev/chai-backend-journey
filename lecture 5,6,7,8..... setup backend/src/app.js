@@ -15,4 +15,9 @@ app.use(express.json({
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
+
+
+// routes import (segregation of files)
+import userRouter from "./routes/user.routes.js";
+app.use('/get')
 export default app
