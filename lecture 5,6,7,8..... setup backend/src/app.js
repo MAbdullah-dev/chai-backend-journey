@@ -19,5 +19,7 @@ app.use(cookieParser());
 
 // routes import (segregation of files)
 import userRouter from "./routes/user.routes.js";
-app.use('/get')
+
+// route declaretion
+app.use("/api/v1/users",userRouter)
 export default app
