@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     };
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverLocalPath = req.files?.cover[0]?.path;
+    const coverLocalPath = req.files?.coverimage[0]?.path;
 
     if (!avatarLocalPath) {
         throw new APIError(400, "Avatar is required")
@@ -51,18 +51,15 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new APIError(400, "Avatar is required")
     }
 
-    User.create({
+    const user = await User.create({
         fullname,
-        avatar: avatar.url,
-        coverImage: coverImage.url || "",
         username: username.toLowerCase(),
         email,
-        password
-
-    })
-    const createdUser = await User.findById(User._id).select(
-        "-password -refreshToken"
-    );
+        password,
+        avatar: avatar.url,
+        coverimage: coverImage?.url || ""
+    });
+    const createdUser = await User.findById(user._id).select("-password -refreshToken");
     if (!createdUser) {
         throw new APIError(500, "User not created")
     }
@@ -72,28 +69,31 @@ const registerUser = asyncHandler(async (req, res) => {
     )
 
 
-    // if (fullname == "") {
-    //     throw new APIError(400, "Fullname is required");
-    // }
-    // if (username == "") {
-    //     throw new APIError(400, "Username is required");
-    // }
-    // if (email == "") {
-    //     throw new APIError(400, "Email is required");
-    // }
-    // if (password == "") {
-    //     throw new APIError(400, "Password is required");
-    // }
-
-
-
-
-
-
-    // res.status(200).json
-    //     ({
-    //         message: "Register User"
-    //     });
 });
 
 export { registerUser }
+
+
+
+// if (fullname == "") {
+//     throw new APIError(400, "Fullname is required");
+// }
+// if (username == "") {
+//     throw new APIError(400, "Username is required");
+// }
+// if (email == "") {
+//     throw new APIError(400, "Email is required");
+// }
+// if (password == "") {
+//     throw new APIError(400, "Password is required");
+// }
+
+
+
+
+
+
+// res.status(200).json
+//     ({
+//         message: "Register User"
+//     });
