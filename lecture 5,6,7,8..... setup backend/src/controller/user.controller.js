@@ -467,7 +467,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
                             }
                         }
                     }
-                ] 
+                ]
             }
         }
     ])
@@ -495,6 +495,12 @@ export {
 }
 
 
+
+
+
+
+
+
 // if (fullname == "") {
 //     throw new APIError(400, "Fullname is required");
 // }
@@ -517,3 +523,72 @@ export {
 //     ({
 //         message: "Register User"
 //     });
+
+
+// const getUserChannelProfile = asyncHandler(async (req, res) => {
+//     const { username } = req.params;
+
+//     if (!username?.trim()) {
+//         throw new APIError(400, "Username is missing");
+//     }
+
+//     const channel = await User.aggregate([
+//         {
+//             $match: {
+//                 username: username?.toLowerCase()
+//             }
+//         },
+//         {
+//             $lookup: {
+//                 from: "subscriptions",
+//                 localField: "_id",
+//                 foreignField: "channel",
+//                 as: "subscribers"
+//             }
+//         },
+//         {
+//             $lookup: {
+//                 from: "subscriptions",
+//                 localField: "_id",
+//                 foreignField: "subcriber", // typo? should be "subscriber" maybe
+//                 as: "subscribersTo"
+//             }
+//         },
+//         {
+//             $addFields: {
+//                 subscriberCount: { $size: "$subscribers" },
+//                 subscribersToCount: { $size: "$subscribersTo" },
+//                 isSubscribed: {
+//                     $cond: {
+//                         if: {
+//                             $in: [req.user?._id, "$subscribers.subscriber"]
+//                         },
+//                         then: true,
+//                         else: false
+//                     }
+//                 }
+//             }
+//         },
+//         {
+//             $project: {
+//                 fullname: 1,
+//                 username: 1,
+//                 subscriberCount: 1,
+//                 subscribersToCount: 1,
+//                 isSubscribed: 1,
+//                 avatar: 1,
+//                 coverimage: 1,
+//                 email: 1,
+//             }
+//         }
+//     ]);
+//     if (!channel || channel.length === 0) {
+//         throw new APIError(404, "Channel not found");
+//     }
+
+//     return res
+//         .status(200)
+//         .json(
+//             new ApiResponse(200, channel[0], "Channel profile fetched successfully")
+//         )
+// });
